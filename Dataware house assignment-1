@@ -1,0 +1,337 @@
+1. **IPL Cricket Tournament**
+   a. Design Fact & Dimension tables:
+      - Fact Table: MatchResults (match_id, team_id, player_id, result, score, venue_id, date)
+      - Dimension Tables: Team(team_id, team_name), Player(player_id, player_name, team_id), Venue(venue_id, venue_name, city)
+
+   b. Create meaningful Primary & Foreign keys:
+      - For the Fact Table (MatchResults):
+        - Primary Key: match_id
+        - Foreign Keys: team_id (from Team), player_id (from Player), venue_id (from Venue)
+      - For the Dimension Tables:
+        - Primary Keys: team_id (in Team), player_id (in Player), venue_id (in Venue)
+
+   c. Try to follow Star/Snowflake Schema Design:
+      - Star Schema:
+        - MatchResults (Fact Table) surrounded by dimension tables like Team, Player, and Venue.
+
+   d. Example SQL query:
+      - 1. Retrieve all match results with team names and player names:
+SELECT m.match_id, t.team_name, p.player_name, m.result, m.score, v.venue_name, m.date
+FROM MatchResults m
+JOIN Team t ON m.team_id = t.team_id
+JOIN Player p ON m.player_id = p.player_id
+JOIN Venue v ON m.venue_id = v.venue_id;
+
+
+2. Calculate the total number of matches played by each team:
+SELECT t.team_name, COUNT(m.match_id) AS total_matches_played
+FROM MatchResults m
+JOIN Team t ON m.team_id = t.team_id
+GROUP BY t.team_name;
+
+
+3. Find the players participating in a specific match:
+SELECT p.player_name
+FROM MatchResults m
+JOIN Player p ON m.player_id = p.player_id
+WHERE m.match_id = 'desired_match_id';
+
+
+4. Get the average score of matches played in each city:
+SELECT v.city, AVG(m.score) AS average_score
+FROM MatchResults m
+JOIN Venue v ON m.venue_id = v.venue_id
+GROUP BY v.city;
+
+
+5. Determine the number of matches played by a specific player:
+SELECT p.player_name, COUNT(m.match_id) AS total_matches_played
+FROM MatchResults m
+JOIN Player p ON m.player_id = p.player_id
+WHERE p.player_id = 'desired_player_id'
+GROUP BY p.player_name;
+
+
+6. Find the team that has won the most matches:
+SELECT t.team_name, COUNT(m.match_id) AS total_wins
+FROM MatchResults m
+JOIN Team t ON m.team_id = t.team_id
+WHERE m.result = 'win'
+GROUP BY t.team_name
+ORDER BY total_wins DESC
+LIMIT 1;
+
+
+7. List all the matches that took place on a particular date:
+SELECT m.match_id, t.team_name, p.player_name, m.result, m.score, v.venue_name
+FROM MatchResults m
+JOIN Team t ON m.team_id = t.team_id
+JOIN Player p ON m.player_id = p.player_id
+JOIN Venue v ON m.venue_id = v.venue_id
+WHERE m.date = 'desired_date';
+
+
+8. Find the total number of matches played in a specific venue:
+SELECT v.venue_name, COUNT(m.match_id) AS total_matches
+FROM MatchResults m
+JOIN Venue v ON m.venue_id = v.venue_id
+GROUP BY v.venue_name;
+
+
+9. Retrieve all match results with team names and player names sorted by date in descending order:
+SELECT m.match_id, t.team_name, p.player_name, m.result, m.score, v.venue_name, m.date
+FROM MatchResults m
+JOIN Team t ON m.team_id = t.team_id
+JOIN Player p ON m.player_id = p.player_id
+JOIN Venue v ON m.venue_id = v.venue_id
+ORDER BY m.date DESC;
+
+
+10. Get the highest score in a match:
+SELECT MAX(score) AS highest_score
+FROM MatchResults;
+
+
+
+2. **Food delivery app like Swiggy, Zomato**
+   a. Design Fact & Dimension tables:
+      - Fact Table: Orders(order_id, restaurant_id, customer_id, order_date, total_amount, delivery_executive_id)
+      - Dimension Tables: Restaurant(restaurant_id, restaurant_name, location), Customer(customer_id, customer_name, city), DeliveryExecutive(delivery_executive_id, executive_name, city)
+
+   b. Create meaningful Primary & Foreign keys:
+      - For the Fact Table (Orders):
+        - Primary Key: order_id
+        - Foreign Keys: restaurant_id (from Restaurant), customer_id (from Customer), delivery_executive_id (from DeliveryExecutive)
+      - For the Dimension Tables:
+        - Primary Keys: restaurant_id (in Restaurant), customer_id (in Customer), delivery_executive_id (in DeliveryExecutive)
+
+   c. Try to follow Star/Snowflake Schema Design:
+      - Star Schema:
+        - Orders (Fact Table) surrounded by dimension tables like Restaurant, Customer, and DeliveryExecutive.
+
+   d. Example SQL query:
+      1. **Query to Retrieve Total Sales by Restaurant:**
+SELECT R.restaurant_name, SUM(O.total_amount) AS total_sales
+FROM Orders O
+JOIN Restaurant R ON O.restaurant_id = R.restaurant_id
+GROUP BY R.restaurant_name;
+
+
+2. **Query to Get Customer Details for a Specific Order:**
+SELECT C.customer_name, C.city
+FROM Orders O
+JOIN Customer C ON O.customer_id = C.customer_id
+WHERE O.order_id = [specific_order_id];
+
+
+3. **Query to Calculate Average Order Value by Delivery Executive City:**
+SELECT DE.city, AVG(O.total_amount) AS avg_order_value
+FROM Orders O
+JOIN DeliveryExecutive DE ON O.delivery_executive_id = DE.delivery_executive_id
+GROUP BY DE.city;
+
+
+4. **Query to Retrieve Details of Orders Placed on a Specific Date:**
+SELECT O.order_id, R.restaurant_name, C.customer_name, O.total_amount
+FROM Orders O
+JOIN Restaurant R ON O.restaurant_id = R.restaurant_id
+JOIN Customer C ON O.customer_id = C.customer_id
+WHERE O.order_date = '2024-06-24';
+
+
+5. **Query to List Delivery Executives and the Number of Orders They've Delivered:**
+SELECT DE.executive_name, COUNT(O.order_id) AS num_orders_delivered
+FROM Orders O
+JOIN DeliveryExecutive DE ON O.delivery_executive_id = DE.delivery_executive_id
+GROUP BY DE.executive_name;
+
+
+3. **Cab ride service like Uber, Lyft**
+   a. Design Fact & Dimension tables:
+      - Fact Table: Trips(trip_id, driver_id, rider_id, start_location, end_location, trip_date, fare_amount, duration)
+      - Dimension Tables: Driver(driver_id, driver_name, city), Rider(rider_id, rider_name, city)
+
+   b. Create meaningful Primary & Foreign keys:
+      - For the Fact Table (Trips):
+        - Primary Key: trip_id
+        - Foreign Keys: driver_id (from Driver), rider_id (from Rider)
+      - For the Dimension Tables:
+        - Primary Keys: driver_id (in Driver), rider_id (in Rider)
+
+   c. Try to follow Star/Snowflake Schema Design:
+      - Star Schema:
+        - Trips (Fact Table) surrounded by dimension tables like Driver and Rider.
+
+   d. Example SQL query:
+      1. Query to get the total number of trips and their average fare amount for each rider:
+SELECT 
+    t.rider_id, 
+    r.rider_name, 
+    COUNT(t.trip_id) AS total_trips, 
+    AVG(t.fare_amount) AS average_fare
+FROM Trips t
+JOIN Rider r ON t.rider_id = r.rider_id
+GROUP BY t.rider_id, r.rider_name;
+
+
+2. Query to find the top 3 earning drivers based on total fare amount:
+SELECT 
+    d.driver_id, 
+    d.driver_name, 
+    SUM(t.fare_amount) AS total_earnings
+FROM Trips t
+JOIN Driver d ON t.driver_id = d.driver_id
+GROUP BY d.driver_id, d.driver_name
+ORDER BY total_earnings DESC
+LIMIT 3;
+
+
+3. Query to get the number of trips and total fare amount for each city:
+SELECT 
+    d.city AS location, 
+    COUNT(t.trip_id) AS total_trips, 
+    SUM(t.fare_amount) AS total_fare_amount
+FROM Trips t
+JOIN Driver d ON t.driver_id = d.driver_id
+GROUP BY d.city;
+
+
+4. Query to find the average trip duration for each day of the week:
+SELECT 
+    DAYNAME(trip_date) AS day_of_week, 
+    AVG(duration) AS average_trip_duration
+FROM Trips
+GROUP BY DAYOFWEEK(trip_date);
+
+
+5. Query to get the details of trips for a specific rider within a date range:
+SELECT 
+    *
+FROM Trips
+WHERE rider_id = 'your_rider_id' 
+    AND trip_date BETWEEN 'start_date' AND 'end_date';
+
+
+
+4. **Restaurant table booking app like Dineout**
+   a. Design Fact & Dimension tables:
+      - Fact Table: Bookings(booking_id, restaurant_id, customer_id, booking_date, booking_time, party_size)
+      - Dimension Tables: Restaurant(restaurant_id, restaurant_name, location), Customer(customer_id, customer_name, city)
+
+   b. Create meaningful Primary & Foreign keys:
+      - For the Fact Table (Bookings):
+        - Primary Key: booking_id
+        - Foreign Keys: restaurant_id (from Restaurant), customer_id (from Customer)
+      - For the Dimension Tables:
+        - Primary Keys: restaurant_id (in Restaurant), customer_id (in Customer)
+
+   c. Try to follow Star/Snowflake Schema Design:
+      - Star Schema:
+        - Bookings (Fact Table) surrounded by dimension tables like Restaurant and Customer.
+
+   d. Example SQL query:
+      
+1. **Query to get all bookings along with customer and restaurant details:**
+   
+   SELECT b.booking_id, b.booking_date, b.booking_time, b.party_size, r.restaurant_name, r.location, c.customer_name, c.city
+   FROM Bookings b
+   INNER JOIN Restaurant r ON b.restaurant_id = r.restaurant_id
+   INNER JOIN Customer c ON b.customer_id = c.customer_id;
+   
+
+2. **Query to find the total number of bookings for each restaurant:**
+   
+   SELECT r.restaurant_name, COUNT(b.booking_id) AS total_bookings
+   FROM Restaurant r
+   LEFT JOIN Bookings b ON r.restaurant_id = b.restaurant_id
+   GROUP BY r.restaurant_name;
+   
+
+3. **Query to retrieve the busiest booking date:**
+   
+   SELECT booking_date, COUNT(booking_id) AS total_bookings
+   FROM Bookings
+   GROUP BY booking_date
+   ORDER BY total_bookings DESC
+   LIMIT 1;
+   
+
+4. **Query to find the average party size for each restaurant:**
+   
+   SELECT r.restaurant_name, AVG(b.party_size) AS avg_party_size
+   FROM Restaurant r
+   LEFT JOIN Bookings b ON r.restaurant_id = b.restaurant_id
+   GROUP BY r.restaurant_name;
+   
+
+5. **Query to find the customers who made bookings on a specific date:**
+   
+   SELECT c.customer_name, b.booking_date, b.booking_time, r.restaurant_name
+   FROM Bookings b
+   INNER JOIN Customer c ON b.customer_id = c.customer_id
+   INNER JOIN Restaurant r ON b.restaurant_id = r.restaurant_id
+   WHERE b.booking_date = '2024-06-24';
+   
+
+5. **Covid Vaccination Application**
+   a. Design Fact & Dimension tables:
+      - Fact Table: Vaccinations(vaccination_id, center_id, patient_id, date, vaccine_type, dose_number, doctor_id)
+      - Dimension Tables: VaccinationCenter(center_id, center_name, location), Patient(patient_id, patient_name, city), Doctor(doctor_id, doctor_name, specialization)
+
+   b. Create meaningful Primary & Foreign keys:
+      - For the Fact Table (Vaccinations):
+        - Primary Key: vaccination_id
+        - Foreign Keys: center_id (from VaccinationCenter), patient_id (from Patient), doctor_id (from Doctor)
+      - For the Dimension Tables:
+        - Primary Keys: center_id (in VaccinationCenter), patient_id (in Patient), doctor_id (in Doctor)
+
+   c. Try to follow Star/Snowflake Schema Design:
+      - Star Schema:
+        - Vaccinations (Fact Table) surrounded by dimension tables like VaccinationCenter, Patient, and Doctor.
+
+   d. Example SQL query:
+     . **Retrieve a list of all vaccinations along with patient and doctor information:**
+   
+   
+   SELECT v.vaccination_id, v.date, v.vaccine_type, v.dose_number, vc.center_name, vc.location, p.patient_name, p.city, d.doctor_name, d.specialization
+   FROM Vaccinations v
+   INNER JOIN VaccinationCenter vc ON v.center_id = vc.center_id
+   INNER JOIN Patient p ON v.patient_id = p.patient_id
+   INNER JOIN Doctor d ON v.doctor_id = d.doctor_id;
+   
+
+2. **Count the total number of vaccinations administered for each vaccine type:**
+   
+   
+   SELECT vaccine_type, COUNT(vaccination_id) AS total_vaccinations
+   FROM Vaccinations
+   GROUP BY vaccine_type;
+   
+
+3. **Find the number of vaccinations conducted at each vaccination center:**
+   
+   
+   SELECT vc.center_name, COUNT(v.vaccination_id) AS total_vaccinations
+   FROM Vaccinations v
+   INNER JOIN VaccinationCenter vc ON v.center_id = vc.center_id
+   GROUP BY vc.center_name;
+   
+
+4. **Identify the patients who have received more than one dose of vaccine:**
+   
+   
+   SELECT p.patient_name, COUNT(v.vaccination_id) AS total_doses_received
+   FROM Vaccinations v
+   INNER JOIN Patient p ON v.patient_id = p.patient_id
+   WHERE v.dose_number > 1
+   GROUP BY p.patient_name;
+   
+
+5. **Retrieve a list of doctors and the total number of vaccinations they have conducted:**
+   
+   
+   SELECT d.doctor_name, d.specialization, COUNT(v.vaccination_id) AS total_vaccinations_conducted
+   FROM Vaccinations v
+   INNER JOIN Doctor d ON v.doctor_id = d.doctor_id
+   GROUP BY d.doctor_name, d.specialization;
+   
