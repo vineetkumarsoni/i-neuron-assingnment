@@ -1,0 +1,108 @@
+question __________________________________________________________________
+
+
+
+1. What is the definition of Hive? What is the present version of Hive?
+2. Is Hive suitable to be used for OLTP systems? Why?
+3. How is HIVE different from RDBMS? Does hive support ACID
+transactions. If not then give the proper reason.
+4. Explain the hive architecture and the different components of a Hive
+architecture?
+5. Mention what Hive query processor does? And Mention what are the
+components of a Hive query processor?
+6. What are the three different modes in which we can operate Hive?
+7. Features and Limitations of Hive.
+8. How to create a Database in HIVE?
+9. How to create a table in HIVE?
+10.What do you mean by describe and describe extended and describe
+formatted with respect to database and table
+11.How to skip header rows from a table in Hive?
+12.What is a hive operator? What are the different types of hive operators?
+13.Explain about the Hive Built-In Functions
+14. Write hive DDL and DML commands.
+15.Explain about SORT BY, ORDER BY, DISTRIBUTE BY and
+CLUSTER BY in Hive.
+16.Difference between "Internal Table" and "External Table" and Mention
+when to choose “Internal Table” and “External Table” in Hive?
+17.Where does the data of a Hive table get stored?
+18.Is it possible to change the default location of a managed table?
+19.What is a metastore in Hive? What is the default database provided by
+Apache Hive for metastore?
+20.Why does Hive not store metadata information in HDFS?
+21.What is a partition in Hive? And Why do we perform partitioning in
+Hive?
+
+
+
+
+
+
+
+
+
+
+
+
+
+answers --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+1. Hive is a data warehouse infrastructure tool that provides data summarization, query, and analysis. It is built on top of Hadoop for providing data query and analysis. The most recent version of Hive as of my last knowledge update is 3.1.2.
+
+2. Hive is not traditionally suitable for OLTP (Online Transaction Processing) systems. OLTP systems are optimized for handling a large number of short online transactions, whereas Hive is more suitable for OLAP (Online Analytical Processing) workloads, which involve complex queries on large volumes of data. Hive's batch-oriented processing and high latency make it less suitable for OLTP systems.
+
+3. Hive is fundamentally different from traditional RDBMS (Relational Database Management Systems) in terms of data storage and processing. Unlike RDBMS, Hive does not support ACID (Atomicity, Consistency, Isolation, Durability) transactions. Hive is designed for batch processing and is optimized for read-heavy workloads, making it suitable for data warehousing and analytics rather than transactional processing which requires ACID compliance.
+
+4. The architecture of Hive consists of several components including the Hive client, Driver, Compiler, Metastore, Execution engine, and storage. The Hive client sends requests to the Driver, which processes the requests, compiles them into an execution plan, and interacts with the Metastore for metadata. The Execution engine then executes the plan against the storage, which can be HDFS or other file systems.
+
+5. The Hive query processor processes HiveQL queries. It includes components such as the Parser, Semantic Analyzer, Logical Plan Generator, Physical Plan Generator, and Execution Engine.
+
+6. Hive can operate in three modes: Local mode, MapReduce mode, and Spark mode.
+
+7. Features of Hive include SQL-like query language (HiveQL), scalability, extensibility through User-Defined Functions (UDFs), and integration with Hadoop. Limitations include high latency for queries, lack of real-time processing capabilities, and limited support for OLTP workloads.
+
+8. To create a database in Hive, you can use the following command:
+```sql
+CREATE DATABASE database_name;
+```
+
+9. To create a table in Hive, you can use the following command:
+```sql
+CREATE TABLE table_name (
+  column1 datatype,
+  column2 datatype,
+  ...
+) 
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE;
+```
+
+10. `DESCRIBE` is used to display the column names and data types of a table. `DESCRIBE EXTENDED` provides additional details, including column statistics and related information. `DESCRIBE FORMATTED` displays the details of a table in a more structured format.
+
+11. To skip header rows from a table in Hive, you can use the `TBLPROPERTIES` clause when creating the table, specifying the number of header rows to skip.
+
+12. Hive operators are used within HiveQL statements to perform various operations. Some common types of Hive operators include arithmetic operators, comparison operators, logical operators, and bitwise operators.
+
+13. Hive provides a wide range of built-in functions including string functions, mathematical functions, date functions, conditional functions, and more, which can be used in HiveQL queries for data manipulation and analysis.
+
+14. Hive DDL (Data Definition Language) commands include `CREATE DATABASE`, `CREATE TABLE`, `ALTER TABLE`, `DROP TABLE`, etc. Hive DML (Data Manipulation Language) commands include `LOAD DATA`, `INSERT OVERWRITE`, `INSERT INTO`, etc.
+
+15. In Hive, `SORT BY` orders the data within each reducer, `ORDER BY` orders the entire result set, `DISTRIBUTE BY` determines which reducer will receive the data, and `CLUSTER BY` is a shortcut for `DISTRIBUTE BY` and `SORT BY`.
+
+16. An internal table's metadata and data are managed by Hive, while an external table's metadata is managed by Hive but the data resides outside the control of Hive. Internal tables are suitable for managed environments where Hive has control over data, while external tables are suitable for scenarios where data needs to be shared between different systems or when data needs to be kept outside of Hive's control.
+
+17. The data of a Hive table can be stored in HDFS (Hadoop Distributed File System) or other compatible file systems that Hive supports.
+
+18. Yes, it is possible to change the default location of a managed table using the `LOCATION` clause while altering the table.
+
+19. The metastore in Hive is a repository that stores metadata for Hive tables, including their schema, partition, location, and storage format. The default database provided by Apache Hive for the metastore is 'default'.
+
+20. Hive does not store metadata information in HDFS due to the differences in handling metadata and data in Hadoop. Storing metadata separately allows for better management and scalability.
+
+21. In Hive, partitioning involves dividing a table into smaller, more manageable parts based on the values of one or more columns. This can greatly improve query performance by allowing the system to only read the relevant partitions. It also provides a way to organize data for more efficient querying and processing.
