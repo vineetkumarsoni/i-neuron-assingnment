@@ -1,0 +1,120 @@
+
+
+Q1. Python is called a general-purpose and high-level programming language because it is designed to be used for a wide range of application domains and is characterized by its high level of abstraction, which allows programmers to express concepts in fewer lines of code compared to lower-level languages.
+
+Q2. Python is called a dynamically typed language because the type of a variable is inferred at runtime, not at compile time. In other words, you don't have to declare the type of a variable when you create one.
+
+Q3. Pros and cons of Python programming language:
+   Pros:
+   - Easy to learn and read
+   - Extensive standard library
+   - Versatile for various tasks (general-purpose)
+   - Large community and ecosystem
+   Cons:
+   - Slower execution speed compared to lower-level languages
+   - Global interpreter lock (GIL) can limit concurrency in multi-threaded programs
+
+Q4. Python can be used in various domains such as web development, data analysis, artificial intelligence, scientific computing, network programming, and more.
+
+Q5. In Python, a variable is a reserved memory location to store values. You can declare a variable by simply assigning a value to it.
+   Example: 
+   ```python
+   x = 5
+   ```
+
+Q6. You can take input from the user in Python using the `input()` function.
+   Example:
+   ```python
+   name = input("Enter your name: ")
+   ```
+
+Q7. The default datatype of the value taken as an input using `input()` function is a string.
+
+Q8. Type casting is the process of converting a variable from one data type to another.
+
+Q9. Yes, we can take more than one input from the user using a single `input()` function by using `split()` and then assigning values to multiple variables.
+   Example:
+   ```python
+   a, b = input("Enter two numbers: ").split()
+   ```
+
+Q10. Keywords are reserved words in Python that have special meanings and cannot be used as variable names.
+
+Q11. No, we cannot use keywords as variable names because they are reserved for specific purposes in Python.
+
+Q12. Indentation refers to the spaces or tabs at the beginning of a code line and is used to define a block of code. In Python, proper indentation is crucial for indicating the scope of the code.
+
+Q13. You can output in Python by using the `print()` function.
+   Example:
+   ```python
+   print("Hello, world!")
+   ```
+
+Q14. Operators in Python are symbols that perform operations on variables and values. They include arithmetic, comparison, logical, identity, membership, and bitwise operators.
+
+Q15. The `/` operator performs division and returns a float, while the `//` operator performs floor division and returns the integer part of the quotient.
+
+Q16. Code:
+```python
+print("iNeuron" * 4)
+```
+
+Q17. Code:
+```python
+num = int(input("Enter a number: "))
+if num % 2 == 0:
+    print("Even")
+else:
+    print("Odd")
+```
+
+Q18. Boolean operators in Python are `and`, `or`, and `not`, which are used to perform logical operations on values.
+
+Q19. Output:
+   - 1 or 0: 1
+   - 0 and 0: 0
+   - True and False and True: False
+   - 1 or 0 or 0: 1
+
+Q20. Conditional statements in Python allow the execution of different code based on the evaluation of a condition.
+
+Q21. `if`, `elif`, and `else` are keywords used in conditional statements:
+   - `if`: It is used to execute a block of code if a condition is true.
+   - `elif`: It is used to specify an alternative condition to be tested if the previous `if` or `elif` condition is false.
+   - `else`: It is used to execute a block of code if the preceding conditions are false.
+
+Q22. Code:
+```python
+age = int(input("Enter your age: "))
+if age >= 18:
+    print("I can vote")
+else:
+    print("I can't vote")
+```
+
+Q23. Code:
+```python
+numbers = [12, 75, 150, 180, 145, 525, 50]
+sum_even = sum(num for num in numbers if num % 2 == 0)
+print(sum_even)
+```
+
+Q24. Code:
+```python
+a, b, c = map(int, input("Enter three numbers: ").split())
+print("Greatest number:", max(a, b, c))
+```
+
+Q25.
+
+
+Code:
+```python
+numbers = [12, 75, 150, 180, 145, 525, 50]
+for num in numbers:
+    if num > 500:
+        break
+    if num > 150:
+        continue
+    if num % 5 == 0:
+        print(num)
